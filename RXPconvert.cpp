@@ -22,6 +22,7 @@
 #include <riegl/scanlib.hpp>
 
 #include <iostream>
+#include <fstream>
 #include <exception>
 #include <cmath>
 #include <limits>
