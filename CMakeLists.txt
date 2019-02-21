@@ -1,9 +1,9 @@
 #
 # CMake file used to generate build files for the RXPconvert
-# program. You'll need to run CMake with the -DCMAKE_PREFIX_PATH
+# program. You'll need to run CMake with the -DRiVLib_DIR
 # flag pointing to the location of the downloaded RiVLib, e.g.:
 #
-#   -DCMAKE_PREFIX_PATH=/home/tristan/Downloads/Software/RiVLIB/rivlib-2_0_1-x86-linux-gcc44/
+#   -DRiVLib_DIR=/home/tristan/Downloads/Software/RiVLIB/rivlib-2_5_7-x86_64-linux-gcc55/cmake
 #
 
 
@@ -11,22 +11,19 @@
 project(RXPconvert)
 
 # CMake minimum version
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.1)
 
 # Make sure we're using C++11
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 # Find RiVLib packages
-find_package(RiVLib COMPONENTS scanlib ctrllib REQUIRED)
-
-# Include the RiVLib include directories
-include_directories(${RiVLib_INCLUDE_DIRS})
+find_package(RiVLib COMPONENTS scanlib REQUIRED)
 
 # Add the RXPconvert executable
 add_executable(RXPconvert RXPconvert.cpp)
 
-# 32-bit
-set_target_properties(RXPconvert PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32")
+# Include the RiVLib include directories
+target_include_directories(RXPconvert PRIVATE ${RiVLib_INCLUDE_DIRS})
 
 # Set link libraries
-target_link_libraries(RXPconvert ${RiVLib_CTRLLIB_LIBRARY} ${RiVLib_SCANLIB_LIBRARY})
+target_link_libraries(RXPconvert PRIVATE ${RiVLib_SCANLIB_LIBRARY})
